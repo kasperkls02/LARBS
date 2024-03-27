@@ -160,7 +160,7 @@ installationloop() {
 		echo "$comment" | grep -q "^\".*\"$" &&
 			comment="$(echo "$comment" | sed -E "s/(^\"|\"$)//g")"
 		case "$tag" in
-		"A") aurinstall "$program" "$comment" ;;
+		#"A") aurinstall "$program" "$comment" ;;
 		"G") gitmakeinstall "$program" "$comment" ;;
 		"P") pipinstall "$program" "$comment" ;;
 		*) maininstall "$program" "$comment" ;;
@@ -302,7 +302,7 @@ sed -Ei "s/^#(ParallelDownloads).*/\1 = 5/;/^#Color$/s/#//" /etc/pacman.conf
 # Use all cores for compilation.
 sed -i "s/-j2/-j$(nproc)/;/^#MAKEFLAGS/s/^#//" /etc/makepkg.conf
 
-manualinstall $aurhelper || error "Failed to install AUR helper."
+#manualinstall $aurhelper || error "Failed to install AUR helper."
 
 # Make sure .*-git AUR packages get updated automatically.
 $aurhelper -Y --save --devel
@@ -317,9 +317,6 @@ installationloop
 # other unnecessary files.
 putgitrepo "$dotfilesrepo" "/home/$name" "$repobranch"
 rm -rf "/home/$name/.git/" "/home/$name/README.md" "/home/$name/LICENSE" "/home/$name/FUNDING.yml"
-
-# Install vim plugins if not alread present.
-[ ! -f "/home/$name/.config/nvim/autoload/plug.vim" ] && vimplugininstall
 
 # Most important command! Get rid of the beep!
 rmmod pcspkr
